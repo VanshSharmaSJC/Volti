@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Now - EV Rental</title>
+    <style>
+      
+ * {
+     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+ }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #e0f7fa;
+            padding: 20px;
+        }
+
+     
+        .booking-container {
+            width: 100%;
+            max-width: 600px;
+            background: #ffffff;
+            padding: 40px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+     
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+    
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #00796b;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #004d40;
+        }
+
+      
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="booking-container">
+        <h2>Book Your EV</h2>
+        <form id="bookingForm" action="/post" method="post" onsubmit="return validateForm(),app">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required>
+                <div id="nameError" class="error"></div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+                <div id="emailError" class="error"></div>
+            </div>
+            <div class="form-group">
+                <label for="vehicle">Select Vehicle</label>
+                <select id="vehicle" name="vehicle" required>
+                    <option value="">-- Select a Vehicle --</option>
+                    <option value="scooter">Electric Scooter</option>
+                    <option value="bike">Electric Bike</option>
+                    <option value="moped">Electric Moped</option>
+                </select>
+                <div id="vehicleError" class="error"></div>
+            </div>
+            <div class="form-group">
+                <label for="startDate">Start Date</label>
+                <input type="date" id="startDate" name="startDate" required>
+                <div id="startDateError" class="error"></div>
+            </div>
+            <div class="form-group">
+                <label for="endDate">End Date</label>
+                <input type="date" id="endDate" name="endDate" required>
+                <div id="endDateError" class="error"></div>
+            </div>
+            <button type="submit">Book Now</button>
+        </form>
+    </div>
+
+    <script>
+        function validateForm() {
+            // Clear previous error messages
+            document.getElementById("nameError").innerText = "";
+            document.getElementById("emailError").innerText = "";
+            document.getElementById("vehicleError").innerText = "";
+            document.getElementById("startDateError").innerText = "";
+            document.getElementById("endDateError").innerText = "";
+
+            let isValid = true;
+
+            // Name Validation
+            const name = document.getElementById("name").value;
+            if (name.trim() === "") {
+                document.getElementById("nameError").innerText = "Please enter your full name.";
+                isValid = false;
+            }
+
+            // Email Validation
+            const email = document.getElementById("email").value;
+            const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            if (!emailPattern.test(email)) {
+                document.getElementById("emailError").innerText = "Please enter a valid email address.";
+                isValid = false;
+            }
+
+            // Vehicle Validation
+            const vehicle = document.getElementById("vehicle").value;
+            if (vehicle === "") {
+                document.getElementById("vehicleError").innerText = "Please select a vehicle.";
+                isValid = false;
+            }
+
+            // Date Validation
+            const startDate = document.getElementById("startDate").value;
+            const endDate = document.getElementById("endDate").value;
+            if (startDate === "") {
+                document.getElementById("startDateError").innerText = "Please select a start date.";
+                isValid = false;
+            }
+            if (endDate === "") {
+                document.getElementById("endDateError").innerText = "Please select an end date.";
+                isValid = false;
+            } else if (new Date(startDate) > new Date(endDate)) {
+                document.getElementById("endDateError").innerText = "End date should be after the start date.";
+                isValid = false;
+            }
+
+            return isValid;
+        }
+    </script>
+</body>
+</html>
